@@ -1,4 +1,4 @@
-import Hylomorphism_Derivation_Core
+import Hylomorphism_Macro_Core
 import SwiftSyntax
 import SwiftSyntaxMacros
 public struct Macro: MemberMacro {

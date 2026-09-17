@@ -3,31 +3,31 @@ import CompilerPluginSupport
 import PackageDescription
 
 let package = Package(
-    name: "swift-hylomorphism-derivation",
+    name: "swift-hylomorphism",
     products: [
-        .library(name: "Hylomorphism Derivation", targets: ["Hylomorphism Derivation"]),
-        .library(name: "Hylomorphism Derivation Core", targets: ["Hylomorphism Derivation Core"]),
+        .library(name: "Hylomorphism Macro", targets: ["Hylomorphism Macro"]),
+        .library(name: "Hylomorphism Macro Core", targets: ["Hylomorphism Macro Core"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/swift-molecules/swift-base-functor-derivation.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-base-functor.git", branch: "main"),
         .package(url: "https://github.com/swiftlang/swift-syntax.git", "603.0.2"..<"604.0.0"),
     ],
     targets: [
-        .target(name: "Hylomorphism Derivation Core", dependencies: [
-            .product(name: "Base Functor Derivation Core", package: "swift-base-functor-derivation"),
+        .target(name: "Hylomorphism Macro Core", dependencies: [
+            .product(name: "Base Functor Macro Core", package: "swift-base-functor"),
             .product(name: "SwiftSyntax", package: "swift-syntax"),
             .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
         ]),
-        .macro(name: "Hylomorphism Derivation Macros", dependencies: [
-            "Hylomorphism Derivation Core",
+        .macro(name: "Hylomorphism Macro Plugin", dependencies: [
+            "Hylomorphism Macro Core",
             .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
             .product(name: "SwiftSyntax", package: "swift-syntax"),
             .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
         ]),
-        .target(name: "Hylomorphism Derivation", dependencies: ["Hylomorphism Derivation Macros"]),
+        .target(name: "Hylomorphism Macro", dependencies: ["Hylomorphism Macro Plugin"]),
         .testTarget(
-            name: "Hylomorphism Derivation Tests",
-            dependencies: ["Hylomorphism Derivation"]
+            name: "Hylomorphism Macro Tests",
+            dependencies: ["Hylomorphism Macro"]
         ),
     ],
     swiftLanguageModes: [.v6]
