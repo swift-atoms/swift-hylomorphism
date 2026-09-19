@@ -4,9 +4,9 @@ import PackageDescription
 
 let package = Package(
     name: "swift-hylomorphism",
+    platforms: [.macOS(.v27), .iOS(.v27), .tvOS(.v27), .watchOS(.v27), .visionOS(.v27)],
     products: [
         .library(name: "Hylomorphism Macro", targets: ["Hylomorphism Macro"]),
-        .library(name: "Hylomorphism Macro Core", targets: ["Hylomorphism Macro Core"]),
     ],
     dependencies: [
         .package(url: "https://github.com/swift-atoms/swift-functor.git", branch: "main"),
@@ -14,7 +14,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "Hylomorphism Macro Core", dependencies: [
-            .product(name: "Functor Base Macro Core", package: "swift-functor"),
             .product(name: "SwiftSyntax", package: "swift-syntax"),
             .product(name: "SwiftSyntaxBuilder", package: "swift-syntax"),
         ]),
@@ -27,7 +26,8 @@ let package = Package(
         .target(name: "Hylomorphism Macro", dependencies: ["Hylomorphism Macro Plugin"]),
         .testTarget(
             name: "Hylomorphism Macro Tests",
-            dependencies: ["Hylomorphism Macro"]
+            dependencies: [
+                .product(name: "Functor Base Macro", package: "swift-functor"),"Hylomorphism Macro"]
         ),
     ],
     swiftLanguageModes: [.v6]
@@ -46,4 +46,9 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
     let package: [SwiftSetting] = []
 
     target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
+}
+
+// Consumer compilation must reject visibility regressions, even when other packages suppress warnings.
+for target in package.targets where target.type == .test || target.name.hasSuffix("Consumer Fixtures") {
+    target.swiftSettings = (target.swiftSettings ?? []) + [.treatAllWarnings(as: .error)]
 }

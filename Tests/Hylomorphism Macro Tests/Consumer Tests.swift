@@ -1,6 +1,8 @@
+import Functor_Base_Macro
 import Hylomorphism_Macro
 import Testing
 
+@FunctorBase
 @Hylomorphism
 private indirect enum Natural {
     case zero
