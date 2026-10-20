@@ -19,7 +19,7 @@ func `hylomorphism fuses unfold and fold`() {
         algebra: { (layer: Natural.Base<Int>) -> Int in
             switch layer {
             case .zero: 0
-            case let .successor(child): child + 1
+            case .successor(let child): child + 1
             }
         }
     )

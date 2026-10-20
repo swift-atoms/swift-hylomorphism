@@ -21,8 +21,8 @@ struct `Hylomorphism boundaries` {
             },
             algebra: { (layer: Tree.Base<Int>) -> Int in
                 switch layer {
-                case let .leaf(value): value
-                case let .node(left, right): left + right
+                case .leaf(let value): value
+                case .node(let left, let right): left + right
                 }
             }
         )
